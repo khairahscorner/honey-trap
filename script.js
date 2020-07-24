@@ -41,28 +41,32 @@ links.forEach((link, i) => {
     // link.addEventListener('mouseleave', onMouseLeaveHandler)
 })
 let currentVideo = videos[0];
+let currentIndex = 0;
+// create scrolltrigger on video container
 
-let tl = gsap.timeline();
+// let tl = gsap.timeline();
     videos.forEach((video, i) => {
         ScrollTrigger.create({
             id:i,
           markers:true,
-          start: (150*i),
-          end: 150*(i+1),
+          start: () => ((i-0.5)*innerHeight/8),
+          end:() => ((i+0.5)*innerHeight/8),
           // when a new section activates (from either direction), set the section accordinglyl.
-          onToggle: trigger => trigger.isActive && setVideo(video)
+          onToggle: trigger => trigger.isActive && setVideo(video, trigger.direction)
+            // return trigger.isActive && reverseVideo(videos[]
         });
       });
     
       // to switch videos
-      function setVideo(newVideo) {
+      function setVideo(newVideo, direction) {
         if (newVideo !== currentVideo) {
             console.log(videos.indexOf(currentVideo), videos.indexOf(newVideo))
-            tl.to(currentVideo, {scale: 1.5, display:'none', autoAlpha: 0,duration:0.7,filter: 'blur(50px)'})
-            .to(newVideo, {scale: 1,display:"block", autoAlpha: 1, filter: 'blur(0px)', delay:'-0.7'});
-            gsap.to('.scroll-head', {y:((videos.indexOf(currentVideo))*-96),duration:0.7, ease:"power1"})
-            gsap.to('.scroll-number', {y:((videos.indexOf(currentVideo))*-32),duration:0.7, ease:"power1"})
-            gsap.to('.list-names', {y:((videos.indexOf(currentVideo)+1)*-45),duration:0.7, ease:"power1"})
+            gsap.to(currentVideo, {scale: 1.5, display:'none', autoAlpha: 0,duration:1,filter: 'blur(50px)'})
+            gsap.to(newVideo, {scale: 1,display:"block", autoAlpha: 1, filter: 'blur(0px)', duration:1});
+                gsap.to('.scroll-head', {y:((videos.indexOf(currentVideo)+1)*-96),duration:1, ease:"power1"})
+                gsap.to('.scroll-number', {y:((videos.indexOf(currentVideo)+1)*-32),duration:1, ease:"power1"})
+                gsap.to('.list-names', {y:((videos.indexOf(currentVideo)+1)*-45),duration:1, ease:"power1"})
+           
             currentVideo = newVideo;
           }
       }
@@ -75,7 +79,8 @@ let tl = gsap.timeline();
         onLeave: self => self.scroll(0)
       });
 
-gsap.to('.list-names', {y:"-45", ease:"power1"})
+      //initial animations
+// gsap.to('.list-names', {y:"-45", ease:"power1"})
 gsap.fromTo('.ruler', {width:"10%"}, {width:"100%", duration:3, ease:'power1'})
 gsap.fromTo('.scroll-number', {opacity:0}, {opacity:1, duration:2, ease:'power1'})
 gsap.fromTo('.scroll-head', {opacity:0}, {opacity:1, duration:5})
