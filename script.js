@@ -49,8 +49,8 @@ let currentIndex = 0;
         ScrollTrigger.create({
             id:i,
           markers:true,
-          start: () => ((i-0.5)*innerHeight/8),
-          end:() => ((i+0.5)*innerHeight/8),
+          start: () => `${(i+1)*100} 100px`,
+          end:"+=50",
           // when a new section activates (from either direction), set the section accordinglyl.
           onToggle: trigger => trigger.isActive && setVideo(video, trigger.direction)
             // return trigger.isActive && reverseVideo(videos[]
@@ -61,7 +61,7 @@ let currentIndex = 0;
       function setVideo(newVideo, direction) {
         if (newVideo !== currentVideo) {
             console.log(videos.indexOf(currentVideo), videos.indexOf(newVideo))
-            gsap.to(currentVideo, {scale: 1.5, display:'none', autoAlpha: 0,duration:1,filter: 'blur(50px)'})
+            gsap.to(currentVideo, {scale: 1.7, display:'none', autoAlpha: 0,duration:1,filter: 'blur(70px)'})
             gsap.to(newVideo, {scale: 1,display:"block", autoAlpha: 1, filter: 'blur(0px)', duration:1});
                 gsap.to('.scroll-head', {y:((videos.indexOf(currentVideo)+1)*-96),duration:1, ease:"power1"})
                 gsap.to('.scroll-number', {y:((videos.indexOf(currentVideo)+1)*-32),duration:1, ease:"power1"})
